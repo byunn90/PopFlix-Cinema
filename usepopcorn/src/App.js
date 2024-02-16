@@ -50,30 +50,13 @@ const tempWatchedData = [
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-function Navbar() {
+function Navbar({ movie }) {
   return (
     <nav className="nav-bar">
       <Search />
-      <NumResults />
+      <NumResults movie={movie} />
       <Logo />
     </nav>
-  );
-}
-
-function Logo() {
-  return (
-    <div className="logo">
-      <span role="img">🍿</span>
-      <h1>usePopcorn</h1>
-    </div>
-  );
-}
-
-function NumResults() {
-  return (
-    <p className="num-results">
-      Found <strong>X</strong> results
-    </p>
   );
 }
 
@@ -90,25 +73,44 @@ function Search() {
   );
 }
 
-function Main() {
+function Main({ movies }) {
   return (
     <main className="main">
-      <ListBox />
+      <ListBox moives={movies} />
       <WatchedBox />
     </main>
   );
 }
 
 export default function App() {
+  const [movies, setMovies] = useState(tempMovieData);
   return (
     <>
       <Navbar />
-      <Main />
+      <Main movies={movies} />
     </>
   );
 }
 
-function ListBox() {
+function Logo() {
+  return (
+    <div className="logo">
+      <span role="img">🍿</span>
+      <h1>usePopcorn</h1>
+    </div>
+  );
+}
+
+function NumResults({ movie }) {
+  const myMovies = movie;
+  return (
+    <p className="num-results">
+      Found <strong>{myMovies.length}</strong> results
+    </p>
+  );
+}
+
+function ListBox({ movies }) {
   const [isOpen1, setIsOpen1] = useState(true);
   return (
     <div className="box">
@@ -118,19 +120,8 @@ function ListBox() {
       >
         {isOpen1 ? "–" : "+"}
       </button>
-      {isOpen1 && <MovieList />}
+      {isOpen1 && <MovieList movies={movies} />}
     </div>
-  );
-}
-
-function MovieList() {
-  const [movies, setMovies] = useState(tempMovieData);
-  return (
-    <ul className="list">
-      {movies?.map((movie) => (
-        <Movie movie={movie} key={movie.imdbID} />
-      ))}
-    </ul>
   );
 }
 
@@ -164,7 +155,7 @@ function WatchedBox() {
       {isOpen2 && (
         <>
           <WatchedSummary watched={watched} />
-          <WatchedMovieList watched={watched} />
+          <MovieList watched={watched} />
         </>
       )}
     </div>
@@ -201,10 +192,10 @@ function WatchedSummary({ watched }) {
   );
 }
 
-function WatchedMovieList({ watched }) {
+function MovieList({ movies }) {
   return (
     <ul className="list">
-      {watched.map((movie) => (
+      {movies?.map((movie) => (
         <WatchedMovie movie={movie} key={movie.imdbID} />
       ))}
     </ul>
