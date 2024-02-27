@@ -24,6 +24,7 @@ export default function StarRating({ maxRating = 5 }) {
           <Star key={i} />
         ))}
         <p style={textStyle}>{rating || ""}</p>
+        <p>Hi</p>
       </div>
     </div>
   );
