@@ -21,10 +21,9 @@ export default function StarRating({ maxRating = 5 }) {
     <div style={containerStyle}>
       <div style={starContainerStyle}>
         {Array.from({ length: maxRating }, (_, i) => (
-          <Star key={i} />
+          <Star key={i} onClick={() => setRating(i + 1)} />
         ))}
         <p style={textStyle}>{rating || ""}</p>
-        <p>Hi</p>
       </div>
     </div>
   );
