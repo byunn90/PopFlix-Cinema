@@ -19,7 +19,7 @@ export default function StarRating({
   const [tempRating, setTempRating] = useState(0);
 
   function handleRating(onRate) {
-    setRating(onRate === 1 ? setTempRating(0) : onRate);
+    setRating(onRate);
   }
   const textStyle = {
     lineHeight: "1",
@@ -36,7 +36,7 @@ export default function StarRating({
             key={i}
             onRate={() => handleRating(i + 1)}
             onHoverIn={() => setTempRating(i + 1)}
-            onHoverOut={() => setTempRating(rating)}
+            onHoverOut={() => setTempRating(i + 1)}
             full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
             color={color}
             size={size}
