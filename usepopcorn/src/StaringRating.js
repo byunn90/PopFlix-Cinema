@@ -20,11 +20,8 @@ export default function StarRating({ maxRating = 5 }) {
   const [tempRating, setTempRating] = useState(0);
 
   function handleRating(onRate) {
-    if (onRate === 1) {
-      setRating("");
-    } else {
-      setRating(onRate);
-    }
+    // setRating(onRate);
+    setRating(onRate === 0 ? setRating(0) : onRate);
   }
 
   return (
@@ -34,12 +31,12 @@ export default function StarRating({ maxRating = 5 }) {
           <Star
             key={i}
             onRate={() => handleRating(i + 1)}
-            onHoverIn={() => handleRating(i + 1)}
-            onHoverOut={() => handleRating(i + 1)}
-            full={rating >= i + 1}
+            onHoverIn={() => setTempRating(i + 1)}
+            onHoverOut={() => setTempRating(i + 1)}
+            full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
           />
         ))}
-        <p style={textStyle}>{rating || ""}</p>
+        <p style={textStyle}>{tempRating || rating || ""}</p>
       </div>
     </div>
   );
