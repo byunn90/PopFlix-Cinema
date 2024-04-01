@@ -67,9 +67,14 @@ function Main({ children }) {
   return <main className="main">{children}</main>;
 }
 
+const KEY = "f84fc31d";
+
 export default function App() {
   const [watched, setWatched] = useState(tempWatchedData);
   const [movies, setMovies] = useState(tempMovieData);
+
+  fetch(`http://www.omdbapi.com/?apikey=[yourkey]&`);
+
   return (
     <>
       <Navbar>
