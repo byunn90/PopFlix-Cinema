@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const tempMovieData = [
   {
@@ -67,13 +67,17 @@ function Main({ children }) {
   return <main className="main">{children}</main>;
 }
 
-const KEY = "f84fc31d";
+const KEY = "22f5774f";
 
 export default function App() {
-  const [watched, setWatched] = useState(tempWatchedData);
-  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState([]);
+  const [movies, setMovies] = useState([]);
 
-  fetch(`http://www.omdbapi.com/?apikey=[yourkey]&`);
+  useEffect(function () {
+    fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=aliens`)
+      .then((res) => res.json())
+      .then((data) => setMovies(data.Search));
+  }, []);
 
   return (
     <>
