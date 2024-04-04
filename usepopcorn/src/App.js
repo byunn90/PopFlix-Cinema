@@ -95,6 +95,7 @@ export default function App() {
         setError(err.message);
       } finally {
         setIsLoading(false);
+        setIsLoading(false);
       }
     }
     fetchMovies();
