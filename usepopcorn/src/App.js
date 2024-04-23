@@ -280,6 +280,8 @@ function Movie({ movies, onSelectMovie }) {
 function MovieDetails({ selectedId, onCloseMovie, onAddWatched }) {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState("");
+
   const {
     Title: title,
     Year: year,
@@ -302,7 +304,8 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched }) {
       imdbRating: Number(imdbRating),
       runtime: Number(runtime.split("").at(0)),
     };
-    onAddWatched(newMovie);
+    onAddWatched(newWatchedMovie);
+    onCloseMovie();
   }
 
   useEffect(
@@ -347,7 +350,11 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched }) {
           </header>
           <section>
             <div className="rating">
-              <StarRating maxRating={10} size={24} />
+              <StarRating
+                maxRating={10}
+                size={24}
+                onSetRating={setUserRating}
+              />
               <button className="btn-add" onClick={handleAdd}>
                 + Add to list
               </button>
@@ -407,8 +414,8 @@ function WatchedMovieList({ watched }) {
 function WatchedMovie({ movie }) {
   return (
     <li>
-      <img src={movie.Poster} alt={`${movie.Title} poster`} />
-      <h3>{movie.Title}</h3>
+      <img src={movie.poster} alt={`${movie.title} poster`} />
+      <h3>{movie.title}</h3>
       <div>
         <p>
           <span>⭐️</span>
