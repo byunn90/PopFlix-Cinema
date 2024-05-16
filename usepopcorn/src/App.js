@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import StarRating from "./StaringRating";
 import { useMovies } from "./useMovies";
+import { useKey } from "./useKey";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -14,7 +15,7 @@ const KEY = "22f5774f";
 export default function App() {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
-  const { movies, isLoading, error } = useMovies(query);
+  const { movies, isLoading, error } = useMovies(query, handleCloseMovie);
   // const [watched, setWatched] = useState([]);
   // Local Storage
   const [watched, setWatched] = useState(function () {
@@ -110,27 +111,13 @@ function Navbar({ children }) {
 
 function Search({ query, setQuery }) {
   const inputEl = useRef(null);
-  useEffect(
-    function () {
-      function callBack(e) {
-        if (document.activeElement === inputEl.current) return;
 
-        if (e.code === "Enter") {
-          inputEl.current.focus();
-          setQuery("");
-        }
-      }
-      document.addEventListener("keydown", callBack);
-      return () => document.addEventListener("keydown", callBack);
-    },
-    [setQuery]
-  );
+  useKey("Enter", function () {
+    if (document.activeElement === inputEl.current) return;
 
-  // useEffect(function () {
-  //   const el = document.querySelector(".search");
-  //   console.log(el);
-  //   el.focus();
-  // }, []);
+    inputEl.current.focus();
+    setQuery("");
+  });
 
   return (
     <input
@@ -278,6 +265,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     onAddWatched(newWatchedMovie);
     // onCloseMovie();
   }
+  useKey("Escape", onCloseMovie);
   useEffect(
     function () {
       function callBack(e) {
